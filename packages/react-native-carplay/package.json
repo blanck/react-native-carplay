@@ -22,7 +22,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/birkir/react-native-carplay.git"
+    "url": "git+https://github.com/blanck/react-native-carplay.git"
   },
   "keywords": [
     "react",
@@ -37,7 +37,7 @@
   "bugs": {
     "url": "https://github.com/birkir/react-native-carplay/issues"
   },
-  "homepage": "https://github.com/birkir/react-native-carplay#readme",
+  "homepage": "https://github.com/blanck/react-native-carplay#readme",
   "peerDependencies": {
     "react": "*",
     "react-native": "*"
