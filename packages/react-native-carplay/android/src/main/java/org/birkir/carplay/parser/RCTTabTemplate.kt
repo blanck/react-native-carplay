@@ -24,7 +24,7 @@ class RCTTabTemplate(
           addTab(parseTab(it.getMap(i)))
         }
         // Apply and select first tab
-        it.getMap(0).getString("id")?.let { it1 ->
+        it.getMap(0)?.getString("id")?.let { it1 ->
           setTabContents(parseTabContents(it1))
           setActiveTabContentId(it1)
         }
@@ -33,11 +33,11 @@ class RCTTabTemplate(
     }.build()
   }
 
-  private fun parseTab(props: ReadableMap): Tab {
+  private fun parseTab(props: ReadableMap?): Tab {
     return Tab.Builder().apply {
-      props.getString("id")?.let { setContentId(it) }
-      props.getString("title")?.let { setTitle(it) }
-      props.getMap("icon")?.let { setIcon(parseCarIcon(it)) }
+      props?.getString("id")?.let { setContentId(it) }
+      props?.getString("title")?.let { setTitle(it) }
+      props?.getMap("icon")?.let { setIcon(parseCarIcon(it)) }
     }.build()
   }
 

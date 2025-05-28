@@ -162,48 +162,52 @@ abstract class RCTTemplate(
     }.build()
   }
 
-  protected fun parseRowItem(item: ReadableMap, index: Int): Row {
-    val id = item.getString("id") ?: index.toString()
+  protected fun parseRowItem(item: ReadableMap?, index: Int): Row {
+    val id = item?.getString("id") ?: index.toString()
     return Row.Builder().apply {
-      item.getString("text")?.let { setTitle(it) }
-      item.getString("detailText")?.let { addText(it) }
-      item.getMap("image")?.let { setImage(parseCarIcon(it)) }
-      item.getMap("location")?.let { setMetadata(
+      item?.getString("text")?.let { setTitle(it) }
+      item?.getString("detailText")?.let { addText(it) }
+      item?.getMap("image")?.let { setImage(parseCarIcon(it)) }
+      item?.getMap("location")?.let { setMetadata(
                     Metadata.Builder()
                         .setPlace(parsePlace(it))
                         .build()
                 )}
-      if (item.hasKey("browsable") && item.getBoolean("browsable")) {
-        setBrowsable(true)
-        setOnClickListener {
-          eventEmitter.didSelectListItem(
-            id,
-            index
-          )
+      if (item != null) {
+        if (item.hasKey("browsable") && item.getBoolean("browsable")) {
+          setBrowsable(true)
+          setOnClickListener {
+            eventEmitter.didSelectListItem(
+              id,
+              index
+            )
+          }
         }
       }
     }.build()
   }
 
-  protected fun parseGridItem(item: ReadableMap, index: Int): GridItem {
-    val id = item.getString("id") ?: index.toString()
+  protected fun parseGridItem(item: ReadableMap?, index: Int): GridItem {
+    val id = item?.getString("id") ?: index.toString()
     return GridItem.Builder().apply {
-      val titleVariants = item.getArray("titleVariants")
-      val metadata = item.getMap("metadata");
+      val titleVariants = item?.getArray("titleVariants")
+      val metadata = item?.getMap("metadata");
 
       if (titleVariants != null) {
         if (titleVariants.size() > 0) {
           setTitle(parseCarText(
-            titleVariants.getString(0),
+              titleVariants.getString(0).toString(),
             metadata
           ))
         }
         if (titleVariants.size() > 1) {
-          setText(titleVariants.getString(1))
+          setText(titleVariants.getString(1).toString())
         }
       }
-      item.getMap("image")?.let { setImage(parseCarIcon(it)) }
-      setLoading(item.isLoading())
+      item?.getMap("image")?.let { setImage(parseCarIcon(it)) }
+      if (item != null) {
+        setLoading(item.isLoading())
+      }
       setOnClickListener {
         eventEmitter.gridButtonPressed(id, index)
       }
@@ -276,7 +280,7 @@ abstract class RCTTemplate(
     )
     props.getArray("texts")?.let {
       for (i in 0 until it.size()) {
-        builder.addText(it.getString(i))
+        builder.addText(it.getString(i).toString())
       }
     }
     props.getMap("image")?.let {
